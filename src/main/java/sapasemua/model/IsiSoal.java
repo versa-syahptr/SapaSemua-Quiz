@@ -10,16 +10,21 @@ import java.util.ArrayList;
  *
  * @author versa
  */
-public abstract class IsiSoal {
+public class IsiSoal {
     private String pertanyaan;
     private ArrayList<Jawaban> pilihanJawaban;
 
-    public IsiSoal() {
+    public IsiSoal(String pertanyaan) {
+        this.pertanyaan = pertanyaan;
         pilihanJawaban = new ArrayList();
     }
     
-    public abstract void tambahPilihanJawaban(Jawaban j);
-    public abstract void hapusPilihanJawaban(Jawaban j);
+    public void tambahPilihanJawaban(Jawaban j){
+        pilihanJawaban.add(j);
+    }
+    public void hapusPilihanJawaban(Jawaban j){
+        pilihanJawaban.remove(j);
+    }
 
     public String getPertanyaan() {
         return pertanyaan;
@@ -29,6 +34,17 @@ public abstract class IsiSoal {
         return pilihanJawaban;
     }
     
-    public abstract void setPertanyaan(String t);
+    public void setPertanyaan(String pertanyaan){
+        this.pertanyaan = pertanyaan;
+    }
+    
+    public Jawaban getJawabanBenar(){
+        for(Jawaban j : pilihanJawaban){
+            if (j.adalahBenar()){
+                return j;
+            }
+        }
+        return null;
+    }
     
 }

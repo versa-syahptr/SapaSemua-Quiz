@@ -8,9 +8,26 @@ package sapasemua.model;
  *
  * @author versa
  */
-public class HasilKuis {
+public abstract class HasilKuis {
     private int id;
     private double nilai;
+
+    public int getIdHasilKuis() {
+        return id;
+    }
+
+    public double getNilai() {
+        return nilai;
+    }
+
+    public void setIdHasilKuis(int id) {
+        this.id = id;
+    }
+
+    public void setNilai(double nilai) {
+        this.nilai = nilai;
+    }
     
+    public abstract void hitungNilai();
     
 }

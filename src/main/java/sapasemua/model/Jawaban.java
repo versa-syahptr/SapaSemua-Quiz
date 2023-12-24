@@ -13,7 +13,8 @@ public class Jawaban {
     private String teks;
     private boolean adalahBenar; 
 
-    public Jawaban(String teks, boolean adalahBenar) {
+    public Jawaban(int id, String teks, boolean adalahBenar) {
+        this.id = id;
         this.teks = teks;
         this.adalahBenar = adalahBenar;
     }
@@ -38,9 +39,16 @@ public class Jawaban {
         return teks;
     }
 
-    public boolean isAdalahBenar() {
+    public boolean adalahBenar() {
         return adalahBenar;
     }
+
+    @Override
+    public String toString() {
+        return "Jawaban{" + "id=" + id + ", teks=" + teks + ", adalahBenar=" + adalahBenar + '}';
+    }
+    
+    
     
     
 }

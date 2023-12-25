@@ -23,9 +23,11 @@ public class Application {
             }
             
             System.out.println("\tJawaban benar: " + s.getJawabanBenar());
+            s.setIndexJawabanTerpilih(0);
+            System.out.println("\tSelected: " + s.getJawabanTerpilih());
 //            s.setJawabanTerpilih(s.getPilihanJawaban().getFirst());
         }
-        kuis.getDaftarSoal().getFirst().setJawabanTerpilih(kuis.getDaftarSoal().getFirst().getPilihanJawaban().getFirst());
+//        kuis.getDaftarSoal().getFirst().setIndexJawabanTerpilih(kuis.getDaftarSoal().getFirst().getPilihanJawaban().getFirst());
         kuis.hitungNilai();
         System.out.println("nilai: " + kuis.getNilai());
     }

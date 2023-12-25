@@ -1,24 +1,58 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package sapasemua.view;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JRadioButton;
 import sapasemua.model.*;
 
 /**
  *
- * @author juven
+ * @author versa
  */
-public class QuizAlfabet extends javax.swing.JFrame {
-    private Kuis kuis;
+public class QuizDialog extends javax.swing.JDialog {
+    
+    private final Kuis kuis;
+    private final DefaultListModel<String> soalListModel = new DefaultListModel();
+    private final JRadioButton[] answerButtons;
 
     /**
-     * Creates new form QuizAlfabet
+     * Creates new form QuizDialog
+     * @param parent
+     * @param modal
+     * @param kuis
      */
-    public QuizAlfabet(Kuis kuis) {
-        initComponents();
+    public QuizDialog(java.awt.Frame parent, boolean modal, Kuis kuis) {
+        super(parent, modal);
+        
         this.kuis = kuis;
+        initComponents();
+        populateListSoal();
+        this.answerButtons = new JRadioButton[]{radioA, radioB, radioC, radioD};
+        soalList.setSelectedIndex(0);
+        renderSoal(this.kuis.getSoalbyIndex(0));
+    }
+    
+    // control
+    private void populateListSoal(){
+        kuis.getDaftarSoal().forEach((soal) -> {
+            soalListModel.addElement("Soal " + soal.getNomor());
+        });
+    }
+    
+    // control
+    private void renderSoal(Soal s){
+        if (s.getIndexJawabanTerpilih() == -1){
+            answerButtonGroup.clearSelection();
+        } else {
+            answerButtons[s.getIndexJawabanTerpilih()].setSelected(true);
+        }
+        soalLabel.setText(s.getPertanyaan());
+        for (int i=0; i<answerButtons.length; i++){
+            answerButtons[i].setText(s.getPilihanJawaban().get(i).getTeks());
+        }
     }
 
     /**
@@ -30,42 +64,47 @@ public class QuizAlfabet extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        AnswerButtonGroup = new javax.swing.ButtonGroup();
+        answerButtonGroup = new javax.swing.ButtonGroup();
         QuestionContentPanel = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        soalLabel = new javax.swing.JLabel();
         radioA = new javax.swing.JRadioButton();
         radioB = new javax.swing.JRadioButton();
         radioC = new javax.swing.JRadioButton();
         radioD = new javax.swing.JRadioButton();
-        jButton6 = new javax.swing.JButton();
+        simpanButton = new javax.swing.JButton();
         QuestionNumberPanel = new javax.swing.JPanel();
-        AlfabetLabel = new javax.swing.JLabel();
+        topikLabel = new javax.swing.JLabel();
         SelesaiButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        soalList = new javax.swing.JList<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         QuestionContentPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel6.setText("Soal");
 
-        jLabel7.setText("*Gambar*");
+        soalLabel.setText("*Gambar*");
 
-        AnswerButtonGroup.add(radioA);
+        answerButtonGroup.add(radioA);
         radioA.setText("jRadioButton1");
 
-        AnswerButtonGroup.add(radioB);
+        answerButtonGroup.add(radioB);
         radioB.setText("jRadioButton2");
 
-        AnswerButtonGroup.add(radioC);
+        answerButtonGroup.add(radioC);
         radioC.setText("jRadioButton3");
 
-        AnswerButtonGroup.add(radioD);
+        answerButtonGroup.add(radioD);
         radioD.setText("jRadioButton4");
 
-        jButton6.setText("Simpan");
+        simpanButton.setText("Simpan");
+        simpanButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                simpanButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout QuestionContentPanelLayout = new javax.swing.GroupLayout(QuestionContentPanel);
         QuestionContentPanel.setLayout(QuestionContentPanelLayout);
@@ -86,10 +125,10 @@ public class QuizAlfabet extends javax.swing.JFrame {
                             .addComponent(radioD)))
                     .addGroup(QuestionContentPanelLayout.createSequentialGroup()
                         .addGap(85, 85, 85)
-                        .addComponent(jButton6))
+                        .addComponent(simpanButton))
                     .addGroup(QuestionContentPanelLayout.createSequentialGroup()
                         .addGap(96, 96, 96)
-                        .addComponent(jLabel7)))
+                        .addComponent(soalLabel)))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
         QuestionContentPanelLayout.setVerticalGroup(
@@ -98,7 +137,7 @@ public class QuizAlfabet extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel7)
+                .addComponent(soalLabel)
                 .addGap(28, 28, 28)
                 .addComponent(radioA)
                 .addGap(18, 18, 18)
@@ -108,15 +147,15 @@ public class QuizAlfabet extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(radioD)
                 .addGap(18, 18, 18)
-                .addComponent(jButton6)
+                .addComponent(simpanButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         QuestionNumberPanel.setBackground(new java.awt.Color(0, 255, 255));
         QuestionNumberPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        AlfabetLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        AlfabetLabel.setText("Alfabet");
+        topikLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        topikLabel.setText(this.kuis.getTopik());
 
         SelesaiButton.setText("Selesai");
         SelesaiButton.addActionListener(new java.awt.event.ActionListener() {
@@ -125,34 +164,32 @@ public class QuizAlfabet extends javax.swing.JFrame {
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        soalList.setModel(soalListModel);
+        soalList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        soalList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                soalListMouseClicked(evt);
+            }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(soalList);
 
         javax.swing.GroupLayout QuestionNumberPanelLayout = new javax.swing.GroupLayout(QuestionNumberPanel);
         QuestionNumberPanel.setLayout(QuestionNumberPanelLayout);
         QuestionNumberPanelLayout.setHorizontalGroup(
             QuestionNumberPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(QuestionNumberPanelLayout.createSequentialGroup()
-                .addGroup(QuestionNumberPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(QuestionNumberPanelLayout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(AlfabetLabel))
-                    .addGroup(QuestionNumberPanelLayout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(QuestionNumberPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(SelesaiButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addGroup(QuestionNumberPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(topikLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SelesaiButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         QuestionNumberPanelLayout.setVerticalGroup(
             QuestionNumberPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, QuestionNumberPanelLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(AlfabetLabel)
+                .addComponent(topikLabel)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -165,7 +202,7 @@ public class QuizAlfabet extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(QuestionNumberPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(QuestionNumberPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(QuestionContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -179,60 +216,48 @@ public class QuizAlfabet extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SelesaiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelesaiButtonActionPerformed
-        StartPage startPage= new StartPage();
-        startPage.setVisible(true);
+        // TODO: add hitung kuis logic
+        kuis.hitungNilai();
+        System.out.println("nilai: " + kuis.getNilai());
         dispose(); // Close the current frame
     }//GEN-LAST:event_SelesaiButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(QuizAlfabet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(QuizAlfabet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(QuizAlfabet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(QuizAlfabet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new QuizAlfabet().setVisible(true);
-//            }
-//        });
-//    }
+    private void soalListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_soalListMouseClicked
+        // TODO add your handling code here:
+        int idx = soalList.getSelectedIndex();
+        renderSoal(kuis.getSoalbyIndex(idx));
+    }//GEN-LAST:event_soalListMouseClicked
+
+    private void simpanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanButtonActionPerformed
+        // TODO add your handling code here:
+        int idx;
+        // get selected radio buttons' index => idx
+        for (idx=0; idx<answerButtons.length; idx++){
+            if (answerButtons[idx].isSelected()){
+                break;
+            }
+        }
+        Soal s = kuis.getSoalbyIndex(soalList.getSelectedIndex());
+        s.setIndexJawabanTerpilih(idx);
+        
+        
+    }//GEN-LAST:event_simpanButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel AlfabetLabel;
-    private javax.swing.ButtonGroup AnswerButtonGroup;
     private javax.swing.JPanel QuestionContentPanel;
     private javax.swing.JPanel QuestionNumberPanel;
     private javax.swing.JButton SelesaiButton;
-    private javax.swing.JButton jButton6;
+    private javax.swing.ButtonGroup answerButtonGroup;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton radioA;
     private javax.swing.JRadioButton radioB;
     private javax.swing.JRadioButton radioC;
     private javax.swing.JRadioButton radioD;
+    private javax.swing.JButton simpanButton;
+    private javax.swing.JLabel soalLabel;
+    private javax.swing.JList<String> soalList;
+    private javax.swing.JLabel topikLabel;
     // End of variables declaration//GEN-END:variables
 }

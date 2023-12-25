@@ -17,7 +17,7 @@ import sapasemua.controler.DB;
  */
 public class Soal extends IsiSoal {
     private int id, nomor;
-    private Jawaban jawabanTerpilih;
+    private int indexJawabanTerpilih = -1;
 
     public Soal(int id, String pertanyaan) {
         super(pertanyaan);
@@ -56,12 +56,19 @@ public class Soal extends IsiSoal {
         this.nomor = nomor;
     }
 
-    public Jawaban getJawabanTerpilih() {
-        return jawabanTerpilih;
+    public int getIndexJawabanTerpilih() {
+        return indexJawabanTerpilih;
     }
 
-    public void setJawabanTerpilih(Jawaban jawabanTerpilih) {
-        this.jawabanTerpilih = jawabanTerpilih;
+    public void setIndexJawabanTerpilih(int indexJawabanTerpilih) {
+        this.indexJawabanTerpilih = indexJawabanTerpilih;
+    }
+    
+    public Jawaban getJawabanTerpilih(){
+        if (indexJawabanTerpilih == -1){
+            return null;
+        }
+        return getPilihanJawaban().get(indexJawabanTerpilih);
     }
 
     @Override

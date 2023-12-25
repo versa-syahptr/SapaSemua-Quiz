@@ -40,12 +40,17 @@ public class Kuis extends HasilKuis {
     public void hitungNilai() {
         int nilai = 0;
         for (Soal soal : daftarSoal){
-            // pasti NPE
-            if (soal.getJawabanTerpilih() == null || soal.getJawabanBenar() == null){
-                
-            } else if (soal.getJawabanTerpilih().equals(soal.getJawabanBenar())){
+            int idx = soal.getIndexJawabanTerpilih();
+            if (idx >= 0 && soal.getPilihanJawaban().get(idx).adalahBenar()){
                 nilai++;
             }
+            // pasti NPE
+//            if (soal.getIndexJawabanTerpilih() == null || soal.getJawabanBenar() == null){
+//                
+//            } else if (soal.getIndexJawabanTerpilih().equals(soal.getJawabanBenar())){
+//                nilai++;
+//            }
+                
         }
         setNilai(((double)nilai/daftarSoal.size())*100);
     }

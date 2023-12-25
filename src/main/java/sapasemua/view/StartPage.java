@@ -1,5 +1,7 @@
 package sapasemua.view;
 
+import sapasemua.model.Kuis;
+
 public class StartPage extends javax.swing.JFrame {
 
     /**
@@ -18,13 +20,22 @@ public class StartPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        SapaSemuaLabel = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         AlfabetButton = new javax.swing.JButton();
         KeluargaButton = new javax.swing.JButton();
-        SapaSemuaLabel = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        nilaiTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        SapaSemuaLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        SapaSemuaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        SapaSemuaLabel.setText("SapaSemua Quiz");
 
         AlfabetButton.setText("Alfabet");
         AlfabetButton.addActionListener(new java.awt.event.ActionListener() {
@@ -58,40 +69,114 @@ public class StartPage extends javax.swing.JFrame {
                 .addComponent(AlfabetButton)
                 .addGap(35, 35, 35)
                 .addComponent(KeluargaButton)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
 
-        SapaSemuaLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        SapaSemuaLabel.setText("SapaSemua");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Mulai Kuis", jPanel2);
+
+        nilaiTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "No", "Topik Kuis", "Nilai"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        nilaiTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        jScrollPane2.setViewportView(nilaiTable);
+        if (nilaiTable.getColumnModel().getColumnCount() > 0) {
+            nilaiTable.getColumnModel().getColumn(0).setResizable(false);
+            nilaiTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+            nilaiTable.getColumnModel().getColumn(1).setResizable(false);
+            nilaiTable.getColumnModel().getColumn(1).setPreferredWidth(255);
+            nilaiTable.getColumnModel().getColumn(2).setResizable(false);
+            nilaiTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+        }
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(7, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Hasil Kuis", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(151, 151, 151)
-                .addComponent(SapaSemuaLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1)
+                    .addComponent(SapaSemuaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(SapaSemuaLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(SapaSemuaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void AlfabetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlfabetButtonActionPerformed
-        QuizAlfabet quizAlfabet = new QuizAlfabet();
-        quizAlfabet.setVisible(true);
-        dispose(); // Close the current frame
+        Kuis k = new Kuis(1, "Alfabet");
+//        QuizAlfabet quizAlfabet = new QuizAlfabet(k);
+//        quizAlfabet.setVisible(true);
+        QuizDialog qDialog = new QuizDialog(this, true, k);
+        qDialog.setVisible(true);
+//        dispose(); // Close the current frame
     }//GEN-LAST:event_AlfabetButtonActionPerformed
 
     private void KeluargaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeluargaButtonActionPerformed
@@ -141,6 +226,11 @@ public class StartPage extends javax.swing.JFrame {
     private javax.swing.JButton KeluargaButton;
     private javax.swing.JLabel SapaSemuaLabel;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable nilaiTable;
     // End of variables declaration//GEN-END:variables
 }

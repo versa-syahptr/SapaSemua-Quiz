@@ -184,9 +184,7 @@ public class QuizAlfabet extends javax.swing.JFrame {
         dispose(); // Close the current frame
     }//GEN-LAST:event_SelesaiButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+
 //    public static void main(String args[]) {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -17,6 +17,7 @@ import sapasemua.controler.DB;
  */
 public class Soal extends IsiSoal {
     private int id, nomor;
+    private String b64image = "";
     private int indexJawabanTerpilih = -1;
 
     public Soal(int id, String pertanyaan) {
@@ -37,6 +38,8 @@ public class Soal extends IsiSoal {
             }
         } catch (SQLException ex) {
             Logger.getLogger(Soal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DB.close();
         }
     }
 
@@ -71,6 +74,14 @@ public class Soal extends IsiSoal {
         return getPilihanJawaban().get(indexJawabanTerpilih);
     }
 
+    public String getB64image() {
+        return b64image;
+    }
+
+    public void setB64image(String b64image) {
+        this.b64image = b64image;
+    }
+    
     @Override
     public String toString() {
         return "Soal{" + "id=" + id + ", nomor=" + nomor + ", teks=" + getPertanyaan() + '}';

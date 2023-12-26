@@ -34,35 +34,12 @@ public class DB {
         return rs;
     }
        
-//    public static ResultSet get() throws SQLException{
-//        connect();
-//        String sql = "SELECT * FROM mahasiswa";
-//        stmt = conn.createStatement();
-//        rs = stmt.executeQuery(sql);
-//        return rs;
-//    }
-//    
-//    public static void insert(Mahasiswa m) throws SQLException{
-//        connect();
-//        stmt = conn.createStatement();
-//        String sql = "INSERT INTO mahasiswa (`nim`, `nama`, `prodi`) VALUES('%s','%s','%s')";
-//        stmt.executeUpdate(sql.formatted(m.getNim(), m.getNama(), m.getProdi())); 
-//        stmt.close();
-//    }
-//    
-//    public static void update(Mahasiswa m) throws SQLException{
-//        connect();
-//        String q = "UPDATE `mahasiswa` SET `nim`='%s',`nama`='%s',`prodi`='%s' WHERE `id`='%d'";
-//        stmt = conn.createStatement();
-//        stmt.executeUpdate(q.formatted(m.getNim(), m.getNama(), m.getProdi(), m.getId()));
-//    }
-//    
-//    public static void delete(int id) throws SQLException{
-//        connect();
-//        String q = "DELETE FROM mahasiswa WHERE `id` = %d";
-//        stmt = conn.createStatement();
-//        stmt.executeUpdate(q.formatted(id));
-//    }
+    public static void update(String sql) throws SQLException {
+        connect();
+        stmt = conn.createStatement();
+        stmt.executeUpdate(sql);
+        close();
+    }
     
     public static void close(){
         try {

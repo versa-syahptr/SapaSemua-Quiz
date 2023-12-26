@@ -5,6 +5,7 @@
 package sapasemua.view;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import sapasemua.model.*;
 
@@ -53,6 +54,7 @@ public class QuizDialog extends javax.swing.JDialog {
         for (int i=0; i<answerButtons.length; i++){
             answerButtons[i].setText(s.getPilihanJawaban().get(i).getTeks());
         }
+        imageCanvas.setImageFromB64String(s.getB64image());
     }
 
     /**
@@ -73,6 +75,7 @@ public class QuizDialog extends javax.swing.JDialog {
         radioC = new javax.swing.JRadioButton();
         radioD = new javax.swing.JRadioButton();
         simpanButton = new javax.swing.JButton();
+        imageCanvas = new sapasemua.view.ImageCanvas();
         QuestionNumberPanel = new javax.swing.JPanel();
         topikLabel = new javax.swing.JLabel();
         SelesaiButton = new javax.swing.JButton();
@@ -83,8 +86,10 @@ public class QuizDialog extends javax.swing.JDialog {
 
         QuestionContentPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Soal");
 
+        soalLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         soalLabel.setText("*Gambar*");
 
         answerButtonGroup.add(radioA);
@@ -110,45 +115,51 @@ public class QuizDialog extends javax.swing.JDialog {
         QuestionContentPanel.setLayout(QuestionContentPanelLayout);
         QuestionContentPanelLayout.setHorizontalGroup(
             QuestionContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, QuestionContentPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addGap(110, 110, 110))
             .addGroup(QuestionContentPanelLayout.createSequentialGroup()
                 .addGroup(QuestionContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(QuestionContentPanelLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
                         .addGroup(QuestionContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(radioB)
-                            .addComponent(radioA)
-                            .addComponent(radioC)
-                            .addComponent(radioD)))
+                            .addGroup(QuestionContentPanelLayout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addGroup(QuestionContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(radioC, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                                    .addComponent(radioB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(radioA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(radioD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(QuestionContentPanelLayout.createSequentialGroup()
+                                .addGap(85, 85, 85)
+                                .addComponent(simpanButton)))
+                        .addGap(0, 12, Short.MAX_VALUE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(QuestionContentPanelLayout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(simpanButton))
-                    .addGroup(QuestionContentPanelLayout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(soalLabel)))
-                .addContainerGap(90, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(soalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, QuestionContentPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(imageCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87))
         );
         QuestionContentPanelLayout.setVerticalGroup(
             QuestionContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(QuestionContentPanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(jLabel6)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(soalLabel)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(imageCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(radioA)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(radioB)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(radioC)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(radioD)
                 .addGap(18, 18, 18)
                 .addComponent(simpanButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         QuestionNumberPanel.setBackground(new java.awt.Color(0, 255, 255));
@@ -219,6 +230,7 @@ public class QuizDialog extends javax.swing.JDialog {
         // TODO: add hitung kuis logic
         kuis.hitungNilai();
         System.out.println("nilai: " + kuis.getNilai());
+        JOptionPane.showMessageDialog(this, "Nilai anda: " + kuis.getNilai());
         dispose(); // Close the current frame
     }//GEN-LAST:event_SelesaiButtonActionPerformed
 
@@ -249,6 +261,7 @@ public class QuizDialog extends javax.swing.JDialog {
     private javax.swing.JPanel QuestionNumberPanel;
     private javax.swing.JButton SelesaiButton;
     private javax.swing.ButtonGroup answerButtonGroup;
+    private sapasemua.view.ImageCanvas imageCanvas;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton radioA;

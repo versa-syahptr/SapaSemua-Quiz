@@ -10,13 +10,16 @@ package sapasemua.model;
  */
 public abstract class HasilKuis {
     private int id;
-    private double nilai;
+    private double nilai = -1;
 
     public int getIdHasilKuis() {
         return id;
     }
 
     public double getNilai() {
+        if (nilai == -1){
+            nilai = fetchNilai();
+        }
         return nilai;
     }
 
@@ -26,8 +29,14 @@ public abstract class HasilKuis {
 
     public void setNilai(double nilai) {
         this.nilai = nilai;
+        updateNilai();
     }
     
+    // hitung nilai from correct answer
     public abstract void hitungNilai();
+    // get nilai from DB
+    public abstract double fetchNilai();
+    // update nilai to DB
+    public abstract void updateNilai();
     
 }

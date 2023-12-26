@@ -7,6 +7,7 @@ package sapasemua.model;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,13 +45,6 @@ public class Kuis extends HasilKuis {
             if (idx >= 0 && soal.getPilihanJawaban().get(idx).adalahBenar()){
                 nilai++;
             }
-            // pasti NPE
-//            if (soal.getIndexJawabanTerpilih() == null || soal.getJawabanBenar() == null){
-//                
-//            } else if (soal.getIndexJawabanTerpilih().equals(soal.getJawabanBenar())){
-//                nilai++;
-//            }
-                
         }
         setNilai(((double)nilai/daftarSoal.size())*100);
     }
@@ -62,6 +56,7 @@ public class Kuis extends HasilKuis {
             while(rs.next()){
                 Soal s = new Soal(rs.getInt("id"), 
                             rs.getString("pertanyaan"));
+                s.setB64image(rs.getString("b64image"));
                 daftarSoal.add(s);
                 s.setNomor(daftarSoal.size());
                 
@@ -104,6 +99,31 @@ public class Kuis extends HasilKuis {
     @Override
     public String toString() {
         return "Kuis{" + "id=" + id + ", topik=" + topik + '}';
+    }
+
+    @Override
+    public double fetchNilai() {
+        String sql = "SELECT * FROM `hasil_kuis` WHERE `id_kuis`=%d";
+        try {
+            ResultSet rs = DB.fetch(sql.formatted(id));
+            while (rs.next()){
+                setIdHasilKuis(rs.getInt("id"));
+                return rs.getDouble("nilai");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Kuis.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    @Override
+    public void updateNilai() {
+        String sql = "UPDATE `hasil_kuis` SET `nilai`=%.2f WHERE `id_kuis`=%d";
+        try {
+            DB.update(String.format(Locale.US, sql, getNilai(), id));
+        } catch (SQLException ex) {
+            Logger.getLogger(Kuis.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

@@ -1,14 +1,25 @@
 package sapasemua.view;
 
+import java.awt.Cursor;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 import sapasemua.model.Kuis;
 
 public class StartPage extends javax.swing.JFrame {
+    
+    // control
+    private ArrayList<Kuis> listKuis;
+    private DefaultTableModel nilaiTableModel; 
 
     /**
      * Creates new form GUI
      */
     public StartPage() {
+        String[] columnNames = {"No", "Topik Kuis", "Nilai"};
+        nilaiTableModel = new DefaultTableModel(columnNames, 10);
         initComponents();
+        listKuis = new ArrayList();
+        
     }
 
     /**
@@ -36,6 +47,12 @@ public class StartPage extends javax.swing.JFrame {
         SapaSemuaLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         SapaSemuaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         SapaSemuaLabel.setText("SapaSemua Quiz");
+
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
 
         AlfabetButton.setText("Alfabet");
         AlfabetButton.addActionListener(new java.awt.event.ActionListener() {
@@ -121,10 +138,13 @@ public class StartPage extends javax.swing.JFrame {
         if (nilaiTable.getColumnModel().getColumnCount() > 0) {
             nilaiTable.getColumnModel().getColumn(0).setResizable(false);
             nilaiTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+            nilaiTable.getColumnModel().getColumn(0).setHeaderValue("No");
             nilaiTable.getColumnModel().getColumn(1).setResizable(false);
             nilaiTable.getColumnModel().getColumn(1).setPreferredWidth(255);
+            nilaiTable.getColumnModel().getColumn(1).setHeaderValue("Topik Kuis");
             nilaiTable.getColumnModel().getColumn(2).setResizable(false);
             nilaiTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+            nilaiTable.getColumnModel().getColumn(2).setHeaderValue("Nilai");
         }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -171,12 +191,18 @@ public class StartPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AlfabetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlfabetButtonActionPerformed
-        Kuis k = new Kuis(1, "Alfabet");
-//        QuizAlfabet quizAlfabet = new QuizAlfabet(k);
-//        quizAlfabet.setVisible(true);
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        Kuis k;
+        if (listKuis.isEmpty()){
+            k = new Kuis(1, "Alfabet");
+            listKuis.add(k);
+        } else {
+            k = listKuis.getFirst();
+        }
+        
         QuizDialog qDialog = new QuizDialog(this, true, k);
         qDialog.setVisible(true);
-//        dispose(); // Close the current frame
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_AlfabetButtonActionPerformed
 
     private void KeluargaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeluargaButtonActionPerformed
@@ -184,6 +210,26 @@ public class StartPage extends javax.swing.JFrame {
         quizKeluarga.setVisible(true);
         dispose(); // Close the current frame
     }//GEN-LAST:event_KeluargaButtonActionPerformed
+    /**
+     * refresh table
+     * 
+     */
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        // TODO add your handling code here:
+        if (jTabbedPane1.getSelectedIndex() == 1){
+            DefaultTableModel model = ((DefaultTableModel)nilaiTable.getModel());
+            model.setRowCount(0); // reset table
+            listKuis.forEach((kuis) -> {
+                if (kuis.getNilai() >= 0){
+                    Object[] rowData = {kuis.getIdHasilKuis(),
+                                        kuis.getTopik(),
+                                        kuis.getNilai()};
+                    model.addRow(rowData);
+                }
+            });
+        }
+        
+    }//GEN-LAST:event_jTabbedPane1StateChanged
 
     /**
      * @param args the command line arguments

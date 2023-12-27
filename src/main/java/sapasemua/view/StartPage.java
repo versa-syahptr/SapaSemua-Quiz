@@ -1,9 +1,15 @@
 package sapasemua.view;
 
 import java.awt.Cursor;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import sapasemua.controler.DB;
 import sapasemua.model.Kuis;
+
 
 public class StartPage extends javax.swing.JFrame {
     
@@ -19,6 +25,7 @@ public class StartPage extends javax.swing.JFrame {
         nilaiTableModel = new DefaultTableModel(columnNames, 10);
         initComponents();
         listKuis = new ArrayList();
+        
         
     }
 
@@ -262,7 +269,15 @@ public class StartPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StartPage().setVisible(true);
+                StartPage page = new StartPage();
+                try {
+                    DB.connect();
+                    DB.close();
+                    page.setVisible(true);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(page, ex, "DB Connection Error", JOptionPane.ERROR_MESSAGE);
+                    System.exit(1);
+                }
             }
         });
     }

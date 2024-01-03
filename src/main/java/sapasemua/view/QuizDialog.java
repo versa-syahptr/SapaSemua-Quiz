@@ -4,6 +4,7 @@
  */
 package sapasemua.view;
 
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -27,14 +28,27 @@ public class QuizDialog extends javax.swing.JDialog {
      */
     public QuizDialog(java.awt.Frame parent, boolean modal, Kuis kuis) {
         super(parent, modal);
-        
         this.kuis = kuis;
         initComponents();
         populateListSoal();
         this.answerButtons = new JRadioButton[]{radioA, radioB, radioC, radioD};
         soalList.setSelectedIndex(0);
         renderSoal(this.kuis.getSoalbyIndex(0));
+        setResizable(false);
     }
+
+    public JRadioButton[] getAnswerButtons() {
+        return answerButtons;
+    }
+
+    public ButtonGroup getAnswerButtonGroup() {
+        return answerButtonGroup;
+    }
+
+    public ImageCanvas getImageCanvas() {
+        return imageCanvas;
+    }
+    
     
     // control
     private void populateListSoal(){
@@ -86,7 +100,7 @@ public class QuizDialog extends javax.swing.JDialog {
         QuestionContentPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Huruf apa ini?");
+        jLabel6.setText("Apa terjemahan dari bahasa isyarat ini?");
 
         answerButtonGroup.add(radioA);
         radioA.setText("jRadioButton1");
@@ -157,6 +171,7 @@ public class QuizDialog extends javax.swing.JDialog {
         QuestionNumberPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         topikLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        topikLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         topikLabel.setText(this.kuis.getTopik());
 
         SelesaiButton.setText("Selesai");
@@ -181,11 +196,11 @@ public class QuizDialog extends javax.swing.JDialog {
             QuestionNumberPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(QuestionNumberPanelLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addGroup(QuestionNumberPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(QuestionNumberPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(topikLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SelesaiButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                    .addComponent(SelesaiButton, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
+                .addGap(34, 34, 34))
+            .addComponent(topikLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         QuestionNumberPanelLayout.setVerticalGroup(
             QuestionNumberPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,8 +257,6 @@ public class QuizDialog extends javax.swing.JDialog {
         }
         Soal s = kuis.getSoalbyIndex(soalList.getSelectedIndex());
         s.setIndexJawabanTerpilih(idx);
-        
-        
     }//GEN-LAST:event_simpanButtonActionPerformed
 
 

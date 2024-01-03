@@ -17,8 +17,9 @@ public abstract class HasilKuis {
     }
 
     public double getNilai() {
+        double nilai_db = fetchNilai();
         if (nilai == -1){
-            nilai = fetchNilai();
+            nilai = nilai_db;
         }
         return nilai;
     }

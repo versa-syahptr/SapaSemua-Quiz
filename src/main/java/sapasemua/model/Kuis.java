@@ -125,6 +125,5 @@ public class Kuis extends HasilKuis {
             Logger.getLogger(Kuis.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
 }

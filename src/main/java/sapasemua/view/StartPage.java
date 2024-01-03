@@ -16,7 +16,7 @@ public class StartPage extends javax.swing.JFrame {
     // control
     private ArrayList<Kuis> listKuis;
     private DefaultTableModel nilaiTableModel; 
-
+    
     /**
      * Creates new form GUI
      */
@@ -24,9 +24,8 @@ public class StartPage extends javax.swing.JFrame {
         String[] columnNames = {"No", "Topik Kuis", "Nilai"};
         nilaiTableModel = new DefaultTableModel(columnNames, 10);
         initComponents();
+        setResizable(false);
         listKuis = new ArrayList();
-        
-        
     }
 
     /**
@@ -53,7 +52,7 @@ public class StartPage extends javax.swing.JFrame {
 
         SapaSemuaLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         SapaSemuaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        SapaSemuaLabel.setText("SapaSemua Quiz");
+        SapaSemuaLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\juven\\Downloads\\Logo SapaSemua.png")); // NOI18N
 
         jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -93,7 +92,7 @@ public class StartPage extends javax.swing.JFrame {
                 .addComponent(AlfabetButton)
                 .addGap(35, 35, 35)
                 .addComponent(KeluargaButton)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -102,17 +101,11 @@ public class StartPage extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jScrollPane1)
         );
 
         jTabbedPane1.addTab("Mulai Kuis", jPanel2);
@@ -188,7 +181,7 @@ public class StartPage extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(SapaSemuaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SapaSemuaLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -196,27 +189,6 @@ public class StartPage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void AlfabetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlfabetButtonActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        Kuis k;
-        if (listKuis.isEmpty()){
-            k = new Kuis(1, "Alfabet");
-            listKuis.add(k);
-        } else {
-            k = listKuis.getFirst();
-        }
-        
-        QuizDialog qDialog = new QuizDialog(this, true, k);
-        qDialog.setVisible(true);
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_AlfabetButtonActionPerformed
-
-    private void KeluargaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeluargaButtonActionPerformed
-        QuizKeluarga quizKeluarga = new QuizKeluarga();
-        quizKeluarga.setVisible(true);
-        dispose(); // Close the current frame
-    }//GEN-LAST:event_KeluargaButtonActionPerformed
     /**
      * refresh table
      * 
@@ -237,6 +209,49 @@ public class StartPage extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void KeluargaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeluargaButtonActionPerformed
+        //        QuizKeluarga quizKeluarga = new QuizKeluarga();
+        //        quizKeluarga.setVisible(true);
+        //        dispose(); // Close the current frame
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        Kuis k = null;
+        boolean contained = false;
+        for (Kuis kuis : listKuis) {
+            if ("Keluarga".equals(kuis.getTopik())) {
+                contained = true;
+                k = kuis;
+            }
+        }
+        if (!contained) {
+            k = new Kuis(2, "Keluarga");
+            listKuis.add(k);
+        }
+
+        QuizDialog qDialog = new QuizDialog(this, true, k);
+        qDialog.setVisible(true);
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_KeluargaButtonActionPerformed
+
+    private void AlfabetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlfabetButtonActionPerformed
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        Kuis k = null;
+        boolean contained = false;
+        for (Kuis kuis : listKuis) {
+            if ("Alfabet".equals(kuis.getTopik())) {
+                contained = true;
+                k = kuis;
+            }
+        }
+        if (!contained) {
+            k = new Kuis(1, "Alfabet");
+            listKuis.add(k);
+        }
+
+        QuizDialog qDialog = new QuizDialog(this, true, k);
+        qDialog.setVisible(true);
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_AlfabetButtonActionPerformed
 
     /**
      * @param args the command line arguments

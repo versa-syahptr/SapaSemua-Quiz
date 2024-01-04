@@ -11,7 +11,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import sapasemua.controler.DB;
+import sapasemua.controller.DB;
 
 /**
  *
@@ -21,6 +21,19 @@ public class Kuis extends HasilKuis {
     private int id;
     private String topik;
     private ArrayList<Soal> daftarSoal;
+    
+    public static final ArrayList<Kuis> listKuis = new ArrayList();
+    
+    public static Kuis get(int id, String topik){
+        for (Kuis kuis : listKuis) {
+            if (topik.equals(kuis.getTopik())){
+                return kuis;
+            }
+        }
+        Kuis k = new Kuis(id, topik);
+        listKuis.add(k);
+        return k;
+    }
 
     public Kuis(int id, String topik) {
         this.id = id;

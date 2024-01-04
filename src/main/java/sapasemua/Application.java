@@ -9,25 +9,36 @@ package sapasemua;
  * @author versa
  */
 
-import sapasemua.model.*;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import sapasemua.controller.DB;
+import sapasemua.controller.StartPageController;
+
+import sapasemua.view.StartPage;
 
 public class Application {
     public static void main(String[] args) {
-        Kuis kuis = new Kuis(1, "Alfabet");
-        System.out.println(kuis);
-        for (Soal s : kuis.getDaftarSoal()){
-            System.out.println("\t" + s);
-            for (Jawaban j : s.getPilihanJawaban()){
-                System.out.println("\t\t" + j);
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
-            
-            System.out.println("\tJawaban benar: " + s.getJawabanBenar());
-            s.setIndexJawabanTerpilih(0);
-            System.out.println("\tSelected: " + s.getJawabanTerpilih());
-//            s.setJawabanTerpilih(s.getPilihanJawaban().getFirst());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(StartPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-//        kuis.getDaftarSoal().getFirst().setIndexJawabanTerpilih(kuis.getDaftarSoal().getFirst().getPilihanJawaban().getFirst());
-        kuis.hitungNilai();
-        System.out.println("nilai: " + kuis.getNilai());
+
+       StartPage page = new StartPage();
+       StartPageController control = new StartPageController();
+        try {
+            DB.connect();
+            DB.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(page, ex, "DB Connection Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
+        control.setView(page);
+        page.setVisible(true);
     }
 }

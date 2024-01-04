@@ -4,11 +4,13 @@
  */
 package sapasemua.view;
 
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
-import sapasemua.model.*;
 
 /**
  *
@@ -16,24 +18,17 @@ import sapasemua.model.*;
  */
 public class QuizDialog extends javax.swing.JDialog {
     
-    private final Kuis kuis;
-    private final DefaultListModel<String> soalListModel = new DefaultListModel();
     private final JRadioButton[] answerButtons;
 
     /**
      * Creates new form QuizDialog
      * @param parent
      * @param modal
-     * @param kuis
      */
-    public QuizDialog(java.awt.Frame parent, boolean modal, Kuis kuis) {
+    public QuizDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        this.kuis = kuis;
         initComponents();
-        populateListSoal();
         this.answerButtons = new JRadioButton[]{radioA, radioB, radioC, radioD};
-        soalList.setSelectedIndex(0);
-        renderSoal(this.kuis.getSoalbyIndex(0));
         setResizable(false);
     }
 
@@ -48,29 +43,36 @@ public class QuizDialog extends javax.swing.JDialog {
     public ImageCanvas getImageCanvas() {
         return imageCanvas;
     }
-    
-    
-    // control
-    private void populateListSoal(){
-        kuis.getDaftarSoal().forEach((soal) -> {
-            soalListModel.addElement("Soal " + soal.getNomor());
-        });
-    }
-    
-    // control
-    private void renderSoal(Soal s){
-        if (s.getIndexJawabanTerpilih() == -1){
-            answerButtonGroup.clearSelection();
-        } else {
-            answerButtons[s.getIndexJawabanTerpilih()].setSelected(true);
-        }
-//        soalLabel.setText(s.getPertanyaan());
-        for (int i=0; i<answerButtons.length; i++){
-            answerButtons[i].setText(s.getPilihanJawaban().get(i).getTeks());
-        }
-        imageCanvas.setImageFromB64String(s.getB64image());
+
+    public JList<String> getSoalList() {
+        return soalList;
     }
 
+    public JButton getSelesaiButton() {
+        return SelesaiButton;
+    }
+
+    public JButton getSimpanButton() {
+        return simpanButton;
+    }
+    
+    public void showMessage(String msg){
+        JOptionPane.showMessageDialog(this, msg);
+    }
+    
+    public void setTopikText(String text){
+        topikLabel.setText(text);
+    }
+    
+    public void addListener(ActionListener e){
+        simpanButton.addActionListener(e);
+        SelesaiButton.addActionListener(e);
+    }
+    
+    public void addAdapter(MouseAdapter ma){
+        soalList.addMouseListener(ma);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,11 +117,6 @@ public class QuizDialog extends javax.swing.JDialog {
         radioD.setText("jRadioButton4");
 
         simpanButton.setText("Simpan");
-        simpanButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                simpanButtonActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout QuestionContentPanelLayout = new javax.swing.GroupLayout(QuestionContentPanel);
         QuestionContentPanel.setLayout(QuestionContentPanelLayout);
@@ -172,22 +169,10 @@ public class QuizDialog extends javax.swing.JDialog {
 
         topikLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         topikLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        topikLabel.setText(this.kuis.getTopik());
 
         SelesaiButton.setText("Selesai");
-        SelesaiButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SelesaiButtonActionPerformed(evt);
-            }
-        });
 
-        soalList.setModel(soalListModel);
         soalList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        soalList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                soalListMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(soalList);
 
         javax.swing.GroupLayout QuestionNumberPanelLayout = new javax.swing.GroupLayout(QuestionNumberPanel);
@@ -231,34 +216,6 @@ public class QuizDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void SelesaiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelesaiButtonActionPerformed
-        // TODO: add hitung kuis logic
-        kuis.hitungNilai();
-        System.out.println("nilai: " + kuis.getNilai());
-        JOptionPane.showMessageDialog(this, "Nilai anda: " + kuis.getNilai());
-        dispose(); // Close the current frame
-    }//GEN-LAST:event_SelesaiButtonActionPerformed
-
-    private void soalListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_soalListMouseClicked
-        // TODO add your handling code here:
-        int idx = soalList.getSelectedIndex();
-        renderSoal(kuis.getSoalbyIndex(idx));
-    }//GEN-LAST:event_soalListMouseClicked
-
-    private void simpanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanButtonActionPerformed
-        // TODO add your handling code here:
-        int idx;
-        // get selected radio buttons' index => idx
-        for (idx=0; idx<answerButtons.length; idx++){
-            if (answerButtons[idx].isSelected()){
-                break;
-            }
-        }
-        Soal s = kuis.getSoalbyIndex(soalList.getSelectedIndex());
-        s.setIndexJawabanTerpilih(idx);
-    }//GEN-LAST:event_simpanButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel QuestionContentPanel;

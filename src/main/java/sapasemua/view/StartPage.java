@@ -1,31 +1,44 @@
 package sapasemua.view;
 
-import java.awt.Cursor;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import sapasemua.controler.DB;
-import sapasemua.model.Kuis;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.event.ChangeListener;
 
 
 public class StartPage extends javax.swing.JFrame {
-    
-    // control
-    private ArrayList<Kuis> listKuis;
-    private DefaultTableModel nilaiTableModel; 
-    
+        
     /**
      * Creates new form GUI
      */
     public StartPage() {
-        String[] columnNames = {"No", "Topik Kuis", "Nilai"};
-        nilaiTableModel = new DefaultTableModel(columnNames, 10);
         initComponents();
         setResizable(false);
-        listKuis = new ArrayList();
+    }
+    
+    public int getTabSelectedIndex(){
+        return jTabbedPane1.getSelectedIndex();
+    }
+
+    public JButton getAlfabetButton() {
+        return AlfabetButton;
+    }
+
+    public JButton getKeluargaButton() {
+        return KeluargaButton;
+    }
+
+    public JTable getNilaiTable() {
+        return nilaiTable;
+    }
+    
+    public void addChangeListener(ChangeListener e){
+        jTabbedPane1.addChangeListener(e);
+    }
+    
+    public void addActionListener(ActionListener e){
+        AlfabetButton.addActionListener(e);
+        KeluargaButton.addActionListener(e);
     }
 
     /**
@@ -52,27 +65,10 @@ public class StartPage extends javax.swing.JFrame {
 
         SapaSemuaLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         SapaSemuaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        SapaSemuaLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\juven\\Downloads\\Logo SapaSemua.png")); // NOI18N
-
-        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jTabbedPane1StateChanged(evt);
-            }
-        });
 
         AlfabetButton.setText("Alfabet");
-        AlfabetButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AlfabetButtonActionPerformed(evt);
-            }
-        });
 
         KeluargaButton.setText("Keluarga");
-        KeluargaButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                KeluargaButtonActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -189,114 +185,7 @@ public class StartPage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    /**
-     * refresh table
-     * 
-     */
-    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
-        // TODO add your handling code here:
-        if (jTabbedPane1.getSelectedIndex() == 1){
-            DefaultTableModel model = ((DefaultTableModel)nilaiTable.getModel());
-            model.setRowCount(0); // reset table
-            listKuis.forEach((kuis) -> {
-                if (kuis.getNilai() >= 0){
-                    Object[] rowData = {kuis.getIdHasilKuis(),
-                                        kuis.getTopik(),
-                                        kuis.getNilai()};
-                    model.addRow(rowData);
-                }
-            });
-        }
-        
-    }//GEN-LAST:event_jTabbedPane1StateChanged
-
-    private void KeluargaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeluargaButtonActionPerformed
-        //        QuizKeluarga quizKeluarga = new QuizKeluarga();
-        //        quizKeluarga.setVisible(true);
-        //        dispose(); // Close the current frame
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        Kuis k = null;
-        boolean contained = false;
-        for (Kuis kuis : listKuis) {
-            if ("Keluarga".equals(kuis.getTopik())) {
-                contained = true;
-                k = kuis;
-            }
-        }
-        if (!contained) {
-            k = new Kuis(2, "Keluarga");
-            listKuis.add(k);
-        }
-
-        QuizDialog qDialog = new QuizDialog(this, true, k);
-        qDialog.setVisible(true);
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_KeluargaButtonActionPerformed
-
-    private void AlfabetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlfabetButtonActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        Kuis k = null;
-        boolean contained = false;
-        for (Kuis kuis : listKuis) {
-            if ("Alfabet".equals(kuis.getTopik())) {
-                contained = true;
-                k = kuis;
-            }
-        }
-        if (!contained) {
-            k = new Kuis(1, "Alfabet");
-            listKuis.add(k);
-        }
-
-        QuizDialog qDialog = new QuizDialog(this, true, k);
-        qDialog.setVisible(true);
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_AlfabetButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StartPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StartPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StartPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StartPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                StartPage page = new StartPage();
-                try {
-                    DB.connect();
-                    DB.close();
-                    page.setVisible(true);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(page, ex, "DB Connection Error", JOptionPane.ERROR_MESSAGE);
-                    System.exit(1);
-                }
-            }
-        });
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AlfabetButton;
     private javax.swing.JButton KeluargaButton;

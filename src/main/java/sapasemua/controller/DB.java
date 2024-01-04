@@ -1,4 +1,4 @@
-package sapasemua.controler;
+package sapasemua.controller;
 
 /* TP_MOD_13
  * DB.java

@@ -34,7 +34,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                sapasemua.view.StartPage
+                                sapasemua.Application
                             </mainClass>
                         </manifest>
                     </archive>
@@ -53,6 +53,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <exec.mainClass>sapasemua.view.StartPage</exec.mainClass>
+        <exec.mainClass>sapasemua.Application</exec.mainClass>
     </properties>
 </project>

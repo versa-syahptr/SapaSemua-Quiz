@@ -161,7 +161,7 @@ public class QuizDialog extends javax.swing.JDialog {
                 .addComponent(radioD)
                 .addGap(18, 18, 18)
                 .addComponent(simpanButton)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         QuestionNumberPanel.setBackground(new java.awt.Color(0, 255, 255));
@@ -196,7 +196,7 @@ public class QuizDialog extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(SelesaiButton)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

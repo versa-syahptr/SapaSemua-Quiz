@@ -65,6 +65,7 @@ public class StartPage extends javax.swing.JFrame {
 
         SapaSemuaLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         SapaSemuaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        SapaSemuaLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\juven\\Downloads\\Logo SapaSemua.png")); // NOI18N
 
         AlfabetButton.setText("Alfabet");
 
